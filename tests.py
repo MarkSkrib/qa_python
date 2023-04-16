@@ -36,4 +36,21 @@ class TestBooksCollector:
         collector.add_new_book(new_book)
         
         assert collector.get_book_rating(new_book) != 1
-        
+
+    # Негативная проверка установки рейтинга книги
+    @pytest.mark.parametrize("invalid_rating", [-1, 0, 11, "good", None])
+    def test_set_book_rating_invalid_rating(self, invalid_rating):
+        collector = BooksCollector()
+        book_name = 'Гордость и предубеждение и зомби'
+        collector.add_new_book(book_name)
+
+        collector.set_book_rating(book_name, invalid_rating)
+        assert collector.get_book_rating(book_name) != invalid_rating
+
+    # Проверка, нельзя установить рейтинг на не добавленной книге
+    def test_set_book_rating_str_and_none_shows_error(self):
+        collector = BooksCollector()
+        collector.set_book_rating("Оно", 5)
+
+        assert collector.get_book_rating("Оно") != 5
+
