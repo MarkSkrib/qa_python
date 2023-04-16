@@ -67,3 +67,36 @@ class TestBooksCollector:
         collector = BooksCollector()
         assert collector.get_book_rating(nonexistent) != 1
 
+    # Проверка возвращения корректных книг
+    def test_get_books_with_specific_rating(self):
+        collector = BooksCollector()
+        collector.add_new_book('Война и мир')
+        collector.set_book_rating('Война и мир', 4)
+        collector.add_new_book('Самый богатый человек в Вавилоне')
+        collector.set_book_rating('Самый богатый человек в Вавилоне', 8)
+        collector.add_new_book('Триумфальная арка')
+        collector.set_book_rating('Триумфальная арка', 4)
+        collector.add_new_book('1984')
+        collector.set_book_rating('1984', 8)
+
+
+        books = collector.get_books_with_specific_rating(4)
+
+        assert 'Война и мир' in books
+        assert 'Триумфальная арка' in books
+
+    # Проверка возвращения пустого массива, когда передаем несуществующее значение
+    def test_get_books_with_specific_rating_empty(self):
+        collector = BooksCollector()
+        assert collector.get_books_with_specific_rating(3) == [] 
+
+    # Проверка возвращения пустого массива, когда передаем некорректное значение
+    @pytest.mark.parametrize("invalid_rating", [5, -4])
+    def test_get_books_with_specific_rating_invalid_rating(self, invalid_rating):
+        collector = BooksCollector()
+        collector.add_new_book('Мир наизнанку') # рейтинг у него поумолчанию 1
+        assert collector.get_books_with_specific_rating(invalid_rating) == [] 
+        
+
+
+
