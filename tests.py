@@ -54,3 +54,16 @@ class TestBooksCollector:
 
         assert collector.get_book_rating("Оно") != 5
 
+    # Проверка возвращения рейтинга
+    def test_get_book_rating(self):
+        collector = BooksCollector()
+        book_name = 'Гордость и предубеждение и зомби'
+        collector.add_new_book(book_name)
+        assert collector.get_book_rating(book_name) == 1
+
+    # У не добавленной книги нет рейтинга
+    @pytest.mark.parametrize("nonexistent", ['', 'Война и мир'])
+    def test_get_book_rating_nonexistent(self, nonexistent):
+        collector = BooksCollector()
+        assert collector.get_book_rating(nonexistent) != 1
+
