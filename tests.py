@@ -96,7 +96,42 @@ class TestBooksCollector:
         collector = BooksCollector()
         collector.add_new_book('Мир наизнанку') # рейтинг у него поумолчанию 1
         assert collector.get_books_with_specific_rating(invalid_rating) == [] 
+
+    # Проверка вовзращения рейтинга книги в виде словаря
+    def test_get_books_rating(self):
+        collector = BooksCollector()
+        collector.add_new_book("Атлант расправил плечи")
+        collector.set_book_rating("Атлант расправил плечи", 6)
+        assert collector.get_books_rating() == {"Атлант расправил плечи": 6}
+
+    # Проверка добавления книги в избранное
+    def test_add_book_in_favorites(self):
+        collector = BooksCollector()
+        collector.add_new_book("Если наступит завтра")
+        collector.add_book_in_favorites("Если наступит завтра")
+        assert "Если наступит завтра" in collector.get_list_of_favorites_books()
+
+    # Проверка добавления уже существующего в избранное
+    def test_add_book_in_favorites_duplicate_book(self):
+        collector = BooksCollector()
+        collector.add_new_book("Если наступит завтра")
+        collector.add_book_in_favorites("Если наступит завтра")
+        collector.add_book_in_favorites("Если наступит завтра")
+        assert len(collector.get_list_of_favorites_books()) == 1
+
+    # Проверка добавления несуществующих и некорректных названий книг
+    @pytest.mark.parametrize("invalid_book", ['Если наступит завтра', '', 5,])
+    def test_add_book_in_favorites_invalid_book(self, invalid_book):
+        collector = BooksCollector()
+        collector.add_new_book('Волшебник из страны Оз')
+        collector.add_book_in_favorites(invalid_book)
+        assert invalid_book not in collector.get_list_of_favorites_books()
+
         
+
+
+
+
 
 
 
