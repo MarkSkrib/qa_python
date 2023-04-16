@@ -127,7 +127,29 @@ class TestBooksCollector:
         collector.add_book_in_favorites(invalid_book)
         assert invalid_book not in collector.get_list_of_favorites_books()
 
+    # Проверка удаления книги из избранного
+    def test_delete_book_from_favorites(self):
+        collector = BooksCollector()
+        collector.add_new_book("Отцы и дети")
+        collector.add_book_in_favorites("Отцы и дети")
+        collector.delete_book_from_favorites("Отцы и дети")
+
+        assert "Отцы и дети" not in collector.get_list_of_favorites_books()
+
+    # Проверка корректного возвращения книг из избранных
+    def test_get_list_of_favorites_books(self):
+        collector = BooksCollector()
+        collector.add_new_book("451 по фаренгейту")
+        collector.add_book_in_favorites("451 по фаренгейту")
+        collector.add_new_book("Мастер и Маргарита")
+        collector.add_book_in_favorites("Мастер и Маргарита")
+
+        assert ["451 по фаренгейту", "Мастер и Маргарита"] == collector.get_list_of_favorites_books()
+
         
+
+
+
 
 
 
